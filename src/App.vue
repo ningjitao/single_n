@@ -1,30 +1,38 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+<div id="app">
   <router-view/>
+</div>
 </template>
+
+<script setup>
+import { message } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const loginTime = localStorage.getItem('token')
+
+const handleClick = function () {
+  const clickTime = +new Date()
+  // 10分钟，自动退出
+  if (loginTime && (clickTime - loginTime) > 10 * 60 * 100) {
+    message.loading('token失效，自动退出中...', 0)
+    localStorage.removeItem('token')
+    setTimeout(() => {
+      message.destroy()
+    }, 500)
+    setTimeout(() => {
+      router.push('/login')
+      document.removeEventListener('click', handleClick, true)
+    }, 1000)
+  }
+}
+if (loginTime) {
+  document.addEventListener('click', handleClick, true)
+}
+</script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  height: 100%;
 }
 </style>
