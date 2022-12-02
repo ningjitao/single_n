@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/Home.vue'
 
 const routes = [
   {
@@ -9,6 +9,10 @@ const routes = [
   },
   {
     path: '/',
+    redirect: '/home'
+  },
+  {
+    path: '/home',
     component: HomeView
   },
   {

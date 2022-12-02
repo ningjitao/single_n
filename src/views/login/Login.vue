@@ -25,6 +25,8 @@
 import { message } from 'ant-design-vue'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
+import API from '@/api/login/index'
 
 const router = useRouter()
 
@@ -40,12 +42,14 @@ const handleSubmit = () => {
   }
   if (username.trim() === 'admin' && password.trim() === '123456') {
     message.loading('登录中...', 0)
-    // 生成时间戳 模拟Token
-    localStorage.setItem('token', JSON.stringify(+new Date()))
-    setTimeout(() => {
-      router.push('/')
-      message.success('登录成功！')
-    }, 1000)
+    axios.get(API.Login).then(res => {
+      const token = res.data.token
+      localStorage.setItem('token', JSON.stringify(token))
+      setTimeout(() => {
+        router.push('/')
+        message.success('登录成功！')
+      }, 1000)
+    })
     setTimeout(() => {
       message.destroy()
     }, 500)
