@@ -10,7 +10,7 @@
       </a-form-item>
       <a-form-item>
         <div class="input_box">
-          <a-input v-model:value="loginForm.password" type="password" placeholder="123456" />
+          <a-input v-model:value="loginForm.password" type="password" placeholder="1" />
         </div>
       </a-form-item>
       <a-form-item>
@@ -40,7 +40,7 @@ const handleSubmit = () => {
   if (username.trim() === '' || password.trim() === '') {
     return message.warning('用户名或密码不能为空！')
   }
-  if (username.trim() === 'admin' && password.trim() === '123456') {
+  if (username.trim() === 'admin' && password.trim() === '1') {
     message.loading('登录中...', 0)
     axios.get(API.Login).then(res => {
       const token = res.data.token

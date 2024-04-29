@@ -10,4 +10,5 @@ import 'ant-design-vue/dist/antd.css'
 // 引入mockJs
 require('./mock/index')
 
-createApp(App).use(Antd).use(store).use(router).mount('#app')
+const app = createApp(App)
+app.use(Antd).use(store).use(router).mount('#app')

@@ -10,7 +10,7 @@
       <a-layout-content
         :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
       >
-        Content1
+        <a-button type="primary" @click="addCount">Count: {{count}}</a-button>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -20,10 +20,17 @@
 <script setup>
 import Headers from './layout/Headers.vue'
 import Menu from './layout/Menu.vue'
-import { reactive } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 
 const state = reactive({
   collapsed: false
+})
+const count = ref(0)
+function addCount () {
+  count.value++
+}
+onMounted(() => {
+  console.log('mounted-vue3')
 })
 </script>
 

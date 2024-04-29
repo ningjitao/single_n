@@ -1,6 +1,6 @@
 <template>
   <div>
-      <a-menu theme="dark" mode="inline" :open-keys="state.openKeys"  @openChange="onOpenChange" :default-selected-keys="state.defaultSelect">
+      <a-menu theme="dark" mode="inline" :open-keys="state.openKeys"  @openChange="onOpenChange" :default-selected-keys="state.defaultSelect" @click="handleMenuItem">
       <a-sub-menu :key="item.id" v-for="item in state.menuList">
         <template v-slot:title><span>{{item.menuName}}</span></template>
         <a-menu-item :key="menuItem.id" v-for="(menuItem) in item.children">
@@ -28,6 +28,10 @@ axios.get(API.getMenuList).then(res => {
     state.rootSubmenuKeys.push(element.id)
   })
 })
+
+const handleMenuItem = (e) => {
+  console.log(e, '-----')
+}
 
 const onOpenChange = (openKey) => {
   const latestOpenKey = openKey.find(key => state.openKeys.indexOf(key) === -1)
