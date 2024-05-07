@@ -12,16 +12,16 @@
 </template>
 
 <script setup name="Menu">
-import { reactive } from 'vue'
-import axios from 'axios'
+import { reactive, getCurrentInstance } from 'vue'
 import API from '@/api/home'
+const { proxy } = getCurrentInstance()
 const state = reactive({
   defaultSelect: ['1-1'],
   openKeys: [],
   rootSubmenuKeys: [],
   menuList: []
 })
-axios.get(API.getMenuList).then(res => {
+proxy.$http.get(API.getMenuList).then(res => {
   state.menuList = [...res.data]
   state.openKeys = [res.data[0].id]
   res.data.forEach(element => {

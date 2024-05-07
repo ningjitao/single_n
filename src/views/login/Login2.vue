@@ -22,13 +22,12 @@
 
 <script setup>
 import { message } from 'ant-design-vue'
-import { reactive } from 'vue'
+import { reactive, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 import API from '@/api/login/index'
 
 const router = useRouter()
-
+const { proxy } = getCurrentInstance()
 const loginForm = reactive({
   username: '',
   password: ''
@@ -41,7 +40,7 @@ const handleSubmit = () => {
   }
   if (username.trim() === 'admin' && password.trim() === '1') {
     message.loading('登录中...', 0)
-    axios.get(API.Login).then(res => {
+    proxy.$http.get(API.Login).then(res => {
       const token = +new Date()
       localStorage.setItem('token', JSON.stringify(token))
       setTimeout(() => {
