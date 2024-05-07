@@ -4,6 +4,10 @@
         <div>
           <div></div>
           <div class="user-avatar">
+            <a-tooltip color="cyan">
+              <template #title>{{tooltipText}}</template>
+              <a-switch v-model:checked="checked" @change="changeChecked" class="switch-style"/>
+            </a-tooltip>
             <a-popover placement="bottom">
               <template #content>
                 <a @click="logOut">退出登录</a>
@@ -18,11 +22,34 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 const router = useRouter()
+const checked = ref(false)
+const tooltipText = ref('开启主题')
 const logOut = () => {
   // 退出登录
   router.push('/login')
   localStorage.removeItem('token')
+}
+
+const changeChecked = (val) => {
+  if (val) {
+    const scriptInfo = document.createElement('script')
+    scriptInfo.type = 'text/javascript'
+    scriptInfo.setAttribute('dynamic-type', 'callScript')
+    scriptInfo.src = 'https://cdn.jsdelivr.net/gh/Fuukei/Public_Repository@latest/static/js/sakura-less.js'
+    document.head.appendChild(scriptInfo)
+    tooltipText.value = '关闭主题'
+  } else {
+    tooltipText.value = '开启主题'
+    const callScript = document.querySelector("script[dynamic-type='callScript']")
+    const canvas = document.querySelectorAll('#canvas_sakura')
+    console.log(canvas, 'canvas')
+    canvas.forEach(can => {
+      can.remove()
+    })
+    document.head.removeChild(callScript)
+  }
 }
 </script>
 
@@ -30,6 +57,12 @@ const logOut = () => {
 .user-avatar {
   text-align: right;
   padding-right: 30px;
+  .ant-switch {
+    margin-right: 15px;
+  }
+  .ant-switch-checked {
+    background-color: #f8cfdf;
+  }
   img {
     height: 45px;
     width: 45px;

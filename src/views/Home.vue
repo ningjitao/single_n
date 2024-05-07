@@ -11,6 +11,23 @@
         :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
       >
         <a-button type="primary" @click="addCount">Count: {{count}}</a-button>
+        <a-divider />
+        {{testComputed}}
+        <a-divider />
+        <a-form
+          ref="formRef"
+          :model="formState"
+          :rules="rules"
+        >
+          <a-form-item ref="name" label="名称" name="name">
+            <a-input v-model:value="formState.name" />
+          </a-form-item>
+        </a-form>
+        <a-divider />
+        <TestChildVue
+          :childProp="formState"
+          nameProp="testChildProp"
+        />
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -20,15 +37,31 @@
 <script setup>
 import Headers from './layout/Headers.vue'
 import Menu from './layout/Menu.vue'
-import { reactive, ref, onMounted } from 'vue'
+import TestChildVue from './components/TestChild.vue'
+import { reactive, ref, onMounted, computed, watch } from 'vue'
 
 const state = reactive({
-  collapsed: false
+  collapsed: false,
+  arrList: ['sss', 'aaa', 'ddd']
+})
+const formState = reactive({
+  name: ''
 })
 const count = ref(0)
+const rules = {
+  name: { required: true, trigger: ['change', 'blur'], message: 'please xxx' }
+}
 function addCount () {
   count.value++
 }
+
+const testComputed = computed(() => {
+  return state.arrList.length ? '计算属性1234' : 'wu'
+})
+
+watch(formState, (obj) => {
+  console.log(obj, '监听-val')
+})
 onMounted(() => {
   console.log('mounted-vue3')
 })
