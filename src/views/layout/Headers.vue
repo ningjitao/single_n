@@ -12,7 +12,7 @@
               <template #content>
                 <a @click="logOut">退出登录</a>
               </template>
-              <img src="../../assets/user.png" />
+              <img src="../../assets/user.png" @click="goPersonalInfo" />
             </a-popover>
           </div>
         </div>
@@ -51,6 +51,10 @@ const changeChecked = (val) => {
     document.head.removeChild(callScript)
   }
 }
+
+function goPersonalInfo () {
+  console.log('11')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -68,6 +72,7 @@ const changeChecked = (val) => {
     width: 45px;
     border-radius: 50%;
     border: 1px solid #f5f5f5;
+    cursor: pointer;
     &:hover {
     transform: rotate(360deg);
     transition: all 1.5s;
