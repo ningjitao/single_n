@@ -47,12 +47,12 @@ const handleSubmit = () => {
       localStorage.setItem('token', JSON.stringify(token))
       setTimeout(() => {
         router.push('/')
-        message.success('登录成功！')
-      }, 1000)
+        setTimeout(() => {
+          message.success('登录成功！')
+          message.destroy()
+        }, 200)
+      }, 500)
     })
-    setTimeout(() => {
-      message.destroy()
-    }, 500)
   } else {
     return message.error('用户名或密码错误！')
   }

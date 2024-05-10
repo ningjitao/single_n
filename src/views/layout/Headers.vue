@@ -22,13 +22,14 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 const router = useRouter()
+const $Route = inject('$Route')
 const checked = ref(false)
 const tooltipText = ref('开启主题')
 const logOut = () => {
   // 退出登录
-  router.push('/login')
+  $Route(router, '/login', {}, true)
   localStorage.removeItem('token')
 }
 
@@ -53,7 +54,7 @@ const changeChecked = (val) => {
 }
 
 function goPersonalInfo () {
-  console.log('11')
+  $Route(router, '/personal-info', { userName: 'admin' })
 }
 </script>
 

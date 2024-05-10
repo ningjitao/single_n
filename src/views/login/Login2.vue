@@ -1,33 +1,33 @@
 <template>
 <div class="loginBox">
   <h2>login</h2>
-  <form action="">
-    <div class="item">
-      <input v-model="loginForm.username" type="text" required>
-      <label for="222">userName</label>
-    </div>
-    <div class="item">
-      <input v-model="loginForm.password" type="password" required>
-      <label for="">password</label>
-    </div>
-    <button class="btn" @click="handleSubmit">submit
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </form>
+  <a-form :form="loginForm" @submit="handleSubmit">
+      <a-form-item>
+        <div class="input_box">
+          <a-input v-model:value="loginForm.username" type="text" placeholder="admin" />
+        </div>
+      </a-form-item>
+      <a-form-item>
+        <div class="input_box">
+          <a-input-password v-model:value="loginForm.password" type="password" placeholder="1" class="password-style-input" />
+        </div>
+      </a-form-item>
+      <a-form-item>
+        <a-button html-type="submit" class="btn">登录</a-button>
+      </a-form-item>
+    </a-form>
 </div>
 </template>
 
 <script setup>
 import { message } from 'ant-design-vue'
-import { reactive, getCurrentInstance } from 'vue'
+import { reactive, inject } from 'vue'
 import { useRouter } from 'vue-router'
-import API from '@/api/login/index'
+const $Route = inject('$Route')
+// import API from '@/api/login/index'
 
 const router = useRouter()
-const { proxy } = getCurrentInstance()
+// const { proxy } = getCurrentInstance()
 const loginForm = reactive({
   username: '',
   password: ''
@@ -40,17 +40,17 @@ const handleSubmit = () => {
   }
   if (username.trim() === 'admin' && password.trim() === '1') {
     message.loading('登录中...', 0)
-    proxy.$http.get(API.Login).then(res => {
-      const token = +new Date()
-      localStorage.setItem('token', JSON.stringify(token))
-      setTimeout(() => {
-        router.push('/')
-        message.success('登录成功！')
-      }, 1000)
-    })
+    // proxy.$http.get(API.Login).then(res => {
+    const token = +new Date()
+    localStorage.setItem('token', JSON.stringify(token))
     setTimeout(() => {
-      message.destroy()
+      $Route(router, '/', {}, true)
+      message.success('登录成功！')
+      setTimeout(() => {
+        message.destroy()
+      }, 200)
     }, 500)
+    // })
   } else {
     return message.error('用户名或密码错误！')
   }
@@ -74,6 +74,24 @@ const handleSubmit = () => {
     box-shadow: 0 15px 25px 0 rgba(0, 0, 0, .6);
     padding: 40px;
     box-sizing: border-box;
+    .input_box {
+      .ant-input {
+        color: #03e9f4;
+      }
+      .password-style-input {
+        background-color: transparent;
+        border: 0;
+        ::v-deep .ant-input {
+          color: #03e9f4;
+          background-color: transparent !important;
+        }
+        &:hover {
+          ::v-deep .ant-input-password-icon {
+            color: #03e9f4;
+          }
+        }
+      }
+    }
   }
 
   h2 {
@@ -113,7 +131,8 @@ const handleSubmit = () => {
   }
 
   .btn {
-    padding: 10px 20px;
+    font-size: 16px;
+    padding: 0px 20px;
     margin-top: 30px;
     color: #03e9f4;
     position: relative;

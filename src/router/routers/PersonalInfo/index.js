@@ -1,9 +1,9 @@
-const test = {
-  path: '/test',
-  name: 'Test',
-  component: () => import('@/views/components/TestChild.vue')
+const PersonalInfo = {
+  path: '/personal-info',
+  name: 'PersonalInfo',
+  component: () => import('@/views/layout/components/PersonalInfo.vue')
 }
 
 export default {
-  test
+  PersonalInfo
 }

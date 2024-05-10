@@ -5,6 +5,7 @@
 </template>
 
 <script setup>
+import '@/assets/css/common.scss'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
