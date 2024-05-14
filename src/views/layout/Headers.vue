@@ -22,7 +22,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { ref, inject } from 'vue'
+import { ref, inject, nextTick } from 'vue'
 const router = useRouter()
 const $Route = inject('$Route')
 const checked = ref(false)
@@ -42,14 +42,16 @@ const changeChecked = (val) => {
     document.head.appendChild(scriptInfo)
     tooltipText.value = '关闭主题'
   } else {
-    tooltipText.value = '开启主题'
-    const callScript = document.querySelector("script[dynamic-type='callScript']")
-    const canvas = document.querySelectorAll('#canvas_sakura')
-    console.log(canvas, 'canvas')
-    canvas.forEach(can => {
-      can.remove()
+    nextTick(() => {
+      tooltipText.value = '开启主题'
+      const callScript = document.querySelector("script[dynamic-type='callScript']")
+      const canvas = document.querySelectorAll('#canvas_sakura')
+      console.log(canvas, 'canvas')
+      canvas.forEach(can => {
+        can.remove()
+      })
+      document.head.removeChild(callScript)
     })
-    document.head.removeChild(callScript)
   }
 }
 

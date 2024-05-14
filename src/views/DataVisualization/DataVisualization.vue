@@ -1,13 +1,11 @@
 <template>
-  <div class="page-background">
+  <div>
     123
   </div>
 </template>
 
 <script setup>
-
 </script>
 
-<style scoped lang="scss">
-
+<style lang="scss" scoped>
 </style>
