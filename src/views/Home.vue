@@ -14,12 +14,14 @@
       <Menu
         :collapsed="state.collapsed"
         @emitToggleCollapsed="emitToggleCollapsed"
+        @currentMenuItem="currentMenuItem"
       ></Menu>
     </a-layout-sider>
     <a-layout>
       <headers></headers>
       <a-layout-content
         :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
+        :class="dataVisClassName"
       >
         <router-view />
       </a-layout-content>
@@ -31,12 +33,15 @@
 <script setup>
 import Headers from './layout/Headers.vue'
 import Menu from './layout/Menu.vue'
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, computed } from 'vue'
 import {
   SmileOutlined
 } from '@ant-design/icons-vue'
 const state = reactive({
-  collapsed: false
+  collapsed: false,
+  currentMenuItem: {
+    key: ''
+  }
 })
 onMounted(() => {
   console.log('mounted-vue3')
@@ -46,6 +51,13 @@ onMounted(() => {
 const emitToggleCollapsed = () => {
   state.collapsed = !state.collapsed
 }
+const currentMenuItem = (obj) => {
+  state.currentMenuItem = obj
+}
+
+const dataVisClassName = computed(() => {
+  return state.currentMenuItem.key === '/data-visualization' ? 'data-visualization-style' : ''
+})
 </script>
 
 <style lang="scss" scoped>
@@ -74,5 +86,8 @@ const emitToggleCollapsed = () => {
   line-height: 32px;
   text-align: center;
   color: #1890ff;
+}
+.data-visualization-style {
+  padding: 0 !important;
 }
 </style>

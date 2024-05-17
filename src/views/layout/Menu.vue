@@ -63,7 +63,7 @@ const { proxy } = getCurrentInstance()
 defineProps({
   collapsed: Boolean
 })
-const emitToggleCollapsed = defineEmits(['emitToggleCollapsed'])
+const emitToggleCollapsed = defineEmits(['emitToggleCollapsed', 'currentMenuItem'])
 const state = reactive({
   defaultSelect: ['1'],
   openKeys: [],
@@ -83,6 +83,7 @@ const handleMenuItem = (e) => {
   if (e.key !== currentRouter) {
     router.push(e.key)
   }
+  emitToggleCollapsed('currentMenuItem', e)
 }
 
 const onOpenChange = (openKey) => {
